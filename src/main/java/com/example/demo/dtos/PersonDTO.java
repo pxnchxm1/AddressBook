@@ -1,24 +1,25 @@
-package com.example.demo.models;
+package com.example.demo.dtos;
 
 
-public class Person {
+
+public class PersonDTO {
+	
  private long id;
  private String name;
  private String email;
  private String phone;
  private String address;
 
- public Person() {
+ public PersonDTO() {
  }
 
- public Person(long id, String name, String email, String phone, String address) {
-     this.id = id;
+ public PersonDTO(long id,String name, String email, String phone, String address) {
+	 this.id=id;
      this.name = name;
      this.email = email;
      this.phone = phone;
      this.address = address;
  }
-
  public long getId() {
      return id;
  }
@@ -26,7 +27,6 @@ public class Person {
  public void setId(long id) {
      this.id = id;
  }
-
  public String getName() {
      return name;
  }

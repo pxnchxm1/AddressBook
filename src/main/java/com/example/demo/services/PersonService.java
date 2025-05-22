@@ -1,6 +1,9 @@
 package com.example.demo.services;
 
 import com.example.demo.models.Person;
+
+import lombok.extern.slf4j.Slf4j;
+
 import com.example.demo.dtos.PersonDTO;
 import com.example.demo.mappers.PersonMapper;
 import org.springframework.stereotype.Service;
@@ -10,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
+
+@Slf4j
 @Service
 public class PersonService {
     private final List<Person> personList = new ArrayList<>();
@@ -18,12 +23,12 @@ public class PersonService {
 
     public PersonService(PersonMapper personMapper) {
         this.personMapper = personMapper;
-        
         personList.add(new Person(counter.getAndIncrement(), "John Doe", "john@example.com", "1234567890", "123 Main St"));
         personList.add(new Person(counter.getAndIncrement(), "Jane Smith", "jane@example.com", "9876543210", "456 Oak Ave"));
     }
 
     public List<PersonDTO> getAllPersons() {
+    	log.info("Got details of all the persons :)");
         return personMapper.toDTOList(personList);
     }
 

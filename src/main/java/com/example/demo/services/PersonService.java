@@ -3,24 +3,24 @@ package com.example.demo.services;
 import com.example.demo.models.Person;
 import com.example.demo.dtos.PersonDTO;
 import com.example.demo.mappers.PersonMapper;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class PersonService {
-
     private final List<Person> personList = new ArrayList<>();
-    private long counter = 1;
-    
-    @Autowired
+    private final AtomicLong counter = new AtomicLong(1);
     private final PersonMapper personMapper;
 
-    
     public PersonService(PersonMapper personMapper) {
         this.personMapper = personMapper;
+        
+        personList.add(new Person(counter.getAndIncrement(), "John Doe", "john@example.com", "1234567890", "123 Main St"));
+        personList.add(new Person(counter.getAndIncrement(), "Jane Smith", "jane@example.com", "9876543210", "456 Oak Ave"));
     }
 
     public List<PersonDTO> getAllPersons() {
@@ -36,7 +36,7 @@ public class PersonService {
 
     public PersonDTO addPerson(PersonDTO dto) {
         Person person = personMapper.toEntity(dto);
-        person.setId(counter++);
+        person.setId(counter.getAndIncrement());
         personList.add(person);
         return personMapper.toDTO(person);
     }
@@ -45,7 +45,7 @@ public class PersonService {
         for (int i = 0; i < personList.size(); i++) {
             if (personList.get(i).getId() == id) {
                 Person updatedPerson = personMapper.toEntity(updatedDTO);
-                updatedPerson.setId(id);
+                updatedPerson.setId(id); // Preserve the original ID
                 personList.set(i, updatedPerson);
                 return Optional.of(personMapper.toDTO(updatedPerson));
             }

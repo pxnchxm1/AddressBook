@@ -3,6 +3,8 @@ package com.example.demo.controllers;
 import com.example.demo.dtos.PersonDTO;
 import com.example.demo.services.PersonService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +35,12 @@ public class AddressBookController {
     }
 
     @PostMapping
-    public ResponseEntity<PersonDTO> addPerson(@RequestBody PersonDTO personDTO) {
+    public ResponseEntity<PersonDTO> addPerson(@Valid @RequestBody PersonDTO personDTO) {
         return ResponseEntity.ok(personService.addPerson(personDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonDTO> updatePerson(@PathVariable long id, @RequestBody PersonDTO updatedDTO) {
+    public ResponseEntity<PersonDTO> updatePerson(@PathVariable long id, @Valid @RequestBody PersonDTO updatedDTO) {
         return personService.updatePerson(id, updatedDTO)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

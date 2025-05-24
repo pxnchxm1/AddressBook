@@ -14,7 +14,12 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-	
+	@ExceptionHandler(AddressBookException.class)
+	public ResponseEntity<Map<String, String>> handleAddressBookException(AddressBookException ex) {
+	    Map<String, String> error = new HashMap<>();
+	    error.put("error", ex.getMessage());
+	    return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+	} 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ValidationErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
 	    Map<String, String> errors = new HashMap<>();

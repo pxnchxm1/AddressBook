@@ -29,9 +29,8 @@ public class AddressBookController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PersonDTO> getPersonById(@PathVariable long id) {
-        return personService.getPersonById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        PersonDTO person = personService.getPersonById(id);
+        return ResponseEntity.ok(person);
     }
 
     @PostMapping

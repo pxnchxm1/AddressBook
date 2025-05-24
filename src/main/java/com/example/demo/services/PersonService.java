@@ -5,6 +5,7 @@ import com.example.demo.models.Person;
 import lombok.extern.slf4j.Slf4j;
 
 import com.example.demo.dtos.PersonDTO;
+import com.example.demo.exceptionHandlers.AddressBookException;
 import com.example.demo.mappers.PersonMapper;
 import org.springframework.stereotype.Service;
 
@@ -32,11 +33,12 @@ public class PersonService {
         return personMapper.toDTOList(personList);
     }
 
-    public Optional<PersonDTO> getPersonById(long id) {
+    public PersonDTO getPersonById(long id) {
         return personList.stream()
                 .filter(p -> p.getId() == id)
                 .findFirst()
-                .map(personMapper::toDTO);
+                .map(personMapper::toDTO)
+                .orElseThrow(() -> new AddressBookException("Person with ID " + id + " not found"));
     }
 
     public PersonDTO addPerson(PersonDTO dto) {
